@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/recipesFragment"
         android:title="@string/recipes_fragment"
-        android:icon="@drawable/baseline_menu_book"/>
+        android:icon="@drawable/ic_menu_book"/>
 
     <item android:id="@+id/favoriteFragment"
         android:title="@string/favorite_food_fragment"
-        android:icon="@drawable/baseline_favorite"/>
+        android:icon="@drawable/ic_favorite"/>
 
     <item android:id="@+id/foodJokeFragment"
         android:title="@string/food_joke_fragment"
-        android:icon="@drawable/baseline_food_joke"/>
+        android:icon="@drawable/ic_food_joke"/>
 </menu>
