@@ -78,9 +78,9 @@ dependencies {
     // Recyclerview
     implementation("androidx.recyclerview:recyclerview:1.1.0")
 //
-//    // Retrofit
-//    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-//    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 //
 //    //Dagger - Hilt
 //    implementation "com.google.dagger:hilt-android:2.28-alpha"
@@ -102,9 +102,9 @@ dependencies {
 //    // Image Loading library Coil
 //    implementation "io.coil-kt:coil:0.13.0"
 //
-//    // Gson
-//    implementation 'com.google.code.gson:gson:2.8.6'
-//
+    // Gson
+    implementation("com.google.code.gson:gson:2.8.6")
+
     // Shimmer
     implementation("com.facebook.shimmer:shimmer:0.5.0")
     implementation("com.todkars:shimmer-recyclerview:0.4.1")
