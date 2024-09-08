@@ -30,7 +30,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportFragmentManager.beginTransaction().add(R.id.navHostFragment, RecipesFragment::class.java, null).commit()
+        //TODO:: transaction in a fragment
+//        supportFragmentManager.beginTransaction().add(R.id.navHostFragment, RecipesFragment::class.java, null).commit()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -50,15 +51,15 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.recipesFragment -> {
                     binding.pager.currentItem = 0
-                    supportFragmentManager.beginTransaction().add(R.id.navHostFragment, RecipesFragment::class.java, null).commit()
+//                    supportFragmentManager.beginTransaction().add(R.id.navHostFragment, RecipesFragment::class.java, null).commit()
                 }
                 R.id.favoriteFragment -> {
                     binding.pager.currentItem = 1
-                    supportFragmentManager.beginTransaction().add(R.id.navHostFragment, FavoriteFragment::class.java, null).commit()
+//                    supportFragmentManager.beginTransaction().add(R.id.navHostFragment, FavoriteFragment::class.java, null).commit()
                 }
                 R.id.foodJokeFragment -> {
                     binding.pager.currentItem = 2
-                    supportFragmentManager.beginTransaction().add(R.id.navHostFragment, FoodJokesFragment::class.java, null).commit()
+//                    supportFragmentManager.beginTransaction().add(R.id.navHostFragment, FoodJokesFragment::class.java, null).commit()
                 }
             }
             true;
@@ -77,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    //TODO:: Navhot controller not used..will remove later
+    //TODO:: Navhost controller not used..will remove later
 
 //    override fun onSupportNavigateUp(): Boolean {
 //        return navController.navigateUp() || super.onSupportNavigateUp()
