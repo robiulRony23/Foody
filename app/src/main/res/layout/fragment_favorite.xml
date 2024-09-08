@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/favorite_food_fragment"
+        android:textSize="30sp"
         android:gravity="center"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

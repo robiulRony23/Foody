@@ -25,17 +25,65 @@ import com.google.android.material.navigation.NavigationBarView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
-    private lateinit var viewPager: ViewPager2
+//    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         supportFragmentManager.beginTransaction().add(R.id.navHostFragment, RecipesFragment::class.java, null).commit()
-        
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        val fragmentList: Array<Fragment> =
+            arrayOf(RecipesFragment(), FavoriteFragment(), FoodJokesFragment());
+
+        binding.pager.adapter = MyViewPager2Adapter(this, fragmentList)
+
+        registerOnPageChangeListener()
+        registerOnItemChangeListener()
+//        setUpNavHostController()
+    }
+
+    private fun registerOnItemChangeListener() {
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+
+            when (item.itemId) {
+                R.id.recipesFragment -> {
+                    binding.pager.currentItem = 0
+                    supportFragmentManager.beginTransaction().add(R.id.navHostFragment, RecipesFragment::class.java, null).commit()
+                }
+                R.id.favoriteFragment -> {
+                    binding.pager.currentItem = 1
+                    supportFragmentManager.beginTransaction().add(R.id.navHostFragment, FavoriteFragment::class.java, null).commit()
+                }
+                R.id.foodJokeFragment -> {
+                    binding.pager.currentItem = 2
+                    supportFragmentManager.beginTransaction().add(R.id.navHostFragment, FoodJokesFragment::class.java, null).commit()
+                }
+            }
+            true;
+        }
+    }
+
+    private fun registerOnPageChangeListener() {
+        binding.pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                when (position) {
+                    0 -> binding.bottomNavigationView.selectedItemId = R.id.recipesFragment
+                    1 -> binding.bottomNavigationView.selectedItemId = R.id.favoriteFragment
+                    2 -> binding.bottomNavigationView.selectedItemId = R.id.foodJokeFragment
+                }
+            }
+        })
+    }
+
+    //TODO:: Navhot controller not used..will remove later
+
+//    override fun onSupportNavigateUp(): Boolean {
+//        return navController.navigateUp() || super.onSupportNavigateUp()
+//    }
+//
+//    private fun setUpNavHostController() {
 //        navController = findNavController(R.id.navHostFragment)
 //        viewPager = findViewById(R.id.pager)
 //
@@ -46,37 +94,7 @@ class MainActivity : AppCompatActivity() {
 //                R.id.foodJokeFragment
 //            )
 //        )
-
-        val fragmentList: Array<Fragment> =
-            arrayOf(RecipesFragment(), FavoriteFragment(), FoodJokesFragment());
-
-        binding.pager.adapter = MyViewPager2Adapter(this, fragmentList)
-
 //        binding.bottomNavigationView.setupWithNavController(navController)
 //        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                when (position) {
-                    0 -> binding.bottomNavigationView.selectedItemId = R.id.recipesFragment
-                    1 -> binding.bottomNavigationView.selectedItemId = R.id.favoriteFragment
-                    2 -> binding.bottomNavigationView.selectedItemId = R.id.foodJokeFragment
-                }
-
-            }
-        })
-
-        binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.recipesFragment -> binding.pager.currentItem = 0
-                R.id.favoriteFragment -> binding.pager.currentItem = 1
-                R.id.foodJokeFragment -> binding.pager.currentItem = 2
-            }
-            true;
-        }
-
-//    override fun onSupportNavigateUp(): Boolean {
-//        return navController.navigateUp() || super.onSupportNavigateUp()
 //    }
-    }
 }

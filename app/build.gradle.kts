@@ -5,13 +5,13 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
 //    id("kotlin-android-extensions")
-//    id("androidx.navigation.safeargs.kotlin")
-//    id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
     namespace = "com.example.foody"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.foody"
@@ -45,22 +45,29 @@ android {
     }
 }
 
+//repositories {
+////    mavenCentral()
+//    maven {
+//        url = uri("https://jitpack.io")
+//    }
+//}
+
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
     // Coordinator Layout
 //    implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
 //
     // Navigation Component
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.0")
 //
 //    // Room components
 //    implementation "androidx.room:room-runtime:2.2.5"
@@ -76,18 +83,21 @@ dependencies {
 //    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha01"
 //
     // Recyclerview
-    implementation("androidx.recyclerview:recyclerview:1.1.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 //
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-//
-//    //Dagger - Hilt
-//    implementation "com.google.dagger:hilt-android:2.28-alpha"
-//    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
-//
-//    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
-//    kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
+
+    //Dagger - Hilt
+//    implementation("com.google.dagger:hilt-android:2.28-alpha")
+//    kapt("com.google.dagger:hilt-android-compiler:2.28-alpha")
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
+    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
+
 //
 //    // Coroutines
 //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
@@ -103,12 +113,13 @@ dependencies {
 //    implementation "io.coil-kt:coil:0.13.0"
 //
     // Gson
-    implementation("com.google.code.gson:gson:2.8.6")
+    implementation("com.google.code.gson:gson:2.9.0")
 
     // Shimmer
     implementation("com.facebook.shimmer:shimmer:0.5.0")
 //    implementation("com.todkars:shimmer-recyclerview:0.4.1")
-//
+    implementation("com.github.sharish:ShimmerRecyclerView:v1.3")
+
 //    // Jsoup
 //    implementation 'org.jsoup:jsoup:1.13.1'
 }
