@@ -22,7 +22,9 @@ import com.example.foody.ui.fragments.favorites.FavoriteFragment
 import com.example.foody.ui.fragments.foodjoke.FoodJokesFragment
 import com.example.foody.ui.fragments.recipes.RecipesFragment
 import com.google.android.material.navigation.NavigationBarView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 //    private lateinit var navController: NavController

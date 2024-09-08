@@ -5,12 +5,10 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
 
-class FoodRecipesApi {
+interface FoodRecipesApi {
 
     @GET("recipes/complexSearch")
     suspend fun getRecipes(
         @QueryMap queries: Map<String, String>
-    ): Response<FoodRecipe> {
-        return TODO("Provide the return value")
-    }
+    ): Response<FoodRecipe>
 }
