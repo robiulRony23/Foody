@@ -9,20 +9,27 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.foody.MainViewModel
+import com.example.foody.viewmodel.MainViewModel
 import com.example.foody.R
 import com.example.foody.adaptars.RecipesAdapter
 import com.example.foody.data.network.NetworkResult
 import com.example.foody.databinding.FragmentRecipesBinding
 import com.example.foody.utils.Constants.Companion.API_KEY
+import com.example.foody.viewmodel.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RecipesFragment : Fragment() {
-
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var recipesViewModel: RecipesViewModel
     private lateinit var binding: FragmentRecipesBinding
     private val recipesAdapter by lazy { RecipesAdapter() }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        recipesViewModel = ViewModelProvider(requireActivity())[RecipesViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,14 +37,13 @@ class RecipesFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipes, container, false)
-        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         setUpRecyclerView()
         requestApiData()
         return binding.root
     }
 
     private fun requestApiData() {
-        mainViewModel.getRecipes(getApplyQueries())
+        mainViewModel.getRecipes(recipesViewModel.getApplyQueries())
         mainViewModel.recipesResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is NetworkResult.Success -> {
@@ -60,20 +66,6 @@ class RecipesFragment : Fragment() {
             }
 
         }
-    }
-
-    private fun getApplyQueries(): HashMap<String, String> {
-        val queries: HashMap<String, String> = HashMap()
-
-        queries["number"] = "50"
-        queries["apiKey"] = API_KEY
-        queries["type"] = "snack"
-        queries["diet"] = "vegan"
-        queries["addRecipeInformation"] = "true"
-        queries["fillIngredients"] = "true"
-
-        return queries
-
     }
 
     private fun setUpRecyclerView() {

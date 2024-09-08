@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightGray"
+
     tools:context=".ui.fragments.recipes.RecipesFragment">
 
 <!--        <com.todkars.shimmer.ShimmerRecyclerView-->
@@ -32,6 +33,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="55dp"
         android:orientation="vertical"
 
         app:shimmer_demo_child_count="4"
