@@ -12,3 +12,15 @@ fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observ
         }
     })
 }
+
+fun <Boolean> LiveData<Boolean>.observeTrueOnce(lifecycleOwner: LifecycleOwner, observer: Observer<Boolean>) {
+    observe(lifecycleOwner, object : Observer<Boolean> {
+        override fun onChanged(value: Boolean) {
+            if(value!!.equals(true)) {
+                removeObserver(this)
+            }
+
+            observer.onChanged(value)
+        }
+    })
+}

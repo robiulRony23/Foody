@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,8 +17,9 @@ import com.example.foody.R
 import com.example.foody.adaptars.RecipesAdapter
 import com.example.foody.data.network.NetworkResult
 import com.example.foody.databinding.FragmentRecipesBinding
-import com.example.foody.utils.Constants.Companion.API_KEY
 import com.example.foody.utils.observeOnce
+import com.example.foody.utils.observeTrueOnce
+import com.example.foody.viewmodel.ConnectivityViewModel
 import com.example.foody.viewmodel.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -28,6 +30,8 @@ class RecipesFragment : Fragment() {
     private lateinit var recipesViewModel: RecipesViewModel
     private lateinit var binding: FragmentRecipesBinding
     private val recipesAdapter by lazy { RecipesAdapter() }
+    private val connectivityViewModel: ConnectivityViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +59,16 @@ class RecipesFragment : Fragment() {
 
         setUpRecyclerView()
         readDatabase()
+
+        connectivityViewModel.isOnline.observeTrueOnce(viewLifecycleOwner) { isOnline ->
+            Log.d("RecipesFragment", "internet connection is changed. isOnline: $isOnline")
+            if (isOnline) {
+                if (recipesAdapter.itemCount == 0) {
+                    readDatabase()
+                }
+            }
+        }
+
         return binding.root
     }
 
