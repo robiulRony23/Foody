@@ -53,15 +53,15 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.recipesFragment -> {
                     binding.pager.currentItem = 0
-//                    supportFragmentManager.beginTransaction().add(R.id.navHostFragment, RecipesFragment::class.java, null).commit()
+//                    supportFragmentManager.beginTransaction().replace(R.id.navHostFragment, RecipesFragment::class.java, null).commit()
                 }
                 R.id.favoriteFragment -> {
                     binding.pager.currentItem = 1
-//                    supportFragmentManager.beginTransaction().add(R.id.navHostFragment, FavoriteFragment::class.java, null).commit()
+//                    supportFragmentManager.beginTransaction().replace(R.id.navHostFragment, FavoriteFragment::class.java, null).commit()
                 }
                 R.id.foodJokeFragment -> {
                     binding.pager.currentItem = 2
-//                    supportFragmentManager.beginTransaction().add(R.id.navHostFragment, FoodJokesFragment::class.java, null).commit()
+//                    supportFragmentManager.beginTransaction().replace(R.id.navHostFragment, FoodJokesFragment::class.java, null).commit()
                 }
             }
             true;

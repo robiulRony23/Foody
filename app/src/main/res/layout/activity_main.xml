@@ -22,10 +22,10 @@
 <!--        app:navGraph="@navigation/navigation_host"-->
         <!--        />-->
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

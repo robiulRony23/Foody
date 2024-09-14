@@ -68,12 +68,12 @@ dependencies {
     // Navigation Component
     implementation("androidx.navigation:navigation-fragment-ktx:2.8.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.8.0")
-//
-//    // Room components
-//    implementation "androidx.room:room-runtime:2.2.5"
-//    kapt "androidx.room:room-compiler:2.2.5"
-//    implementation "androidx.room:room-ktx:2.2.5"
-//    androidTestImplementation "androidx.room:room-testing:2.2.5"
+
+    // Room components
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    androidTestImplementation("androidx.room:room-testing:2.6.1")
 //
 //    // Data binding
 //    kapt "com.android.databinding:compiler:3.2.0-alpha10"
@@ -102,12 +102,12 @@ dependencies {
 //    // Coroutines
 //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
 //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
-//
-//    // Lifecycle
-//    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-//    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
-//    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
-//    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+
+    // Lifecycle
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.5")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.5")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.5")
 
     // Image Loading library Coil
     implementation("io.coil-kt:coil:0.13.0")
