@@ -31,16 +31,28 @@ class RecipesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("RecipesFragment", "onCreate() is called!!!")
         mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         recipesViewModel = ViewModelProvider(requireActivity())[RecipesViewModel::class.java]
     }
+
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        Log.d("RecipesFragment", "onViewCreate() is called!!!")
+//        readDatabase()
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("RecipesFragment", "onCreateView() is called!!!")
+
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipes, container, false)
+        binding.lifecycleOwner = this
+        binding.mainViewModel = mainViewModel
+
         setUpRecyclerView()
         readDatabase()
         return binding.root

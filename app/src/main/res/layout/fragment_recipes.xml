@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="mainViewModel"
+            type="com.example.foody.viewmodel.MainViewModel" />
+    </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -78,6 +84,8 @@
         android:alpha="0.5"
         android:src="@drawable/ic_sad"
         android:visibility="invisible"
+        readApiResponse="@{mainViewModel.recipesResponse}"
+        readDatabase="@{mainViewModel.readRecipes}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,7 +101,10 @@
         android:text="@string/no_internet_connection"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@color/darkGray"
         android:visibility="invisible"
+        readApiResponse2="@{mainViewModel.recipesResponse}"
+        readDatabase2="@{mainViewModel.readRecipes}"
         app:layout_constraintEnd_toEndOf="@+id/iv_recipes_error"
         app:layout_constraintStart_toStartOf="@+id/iv_recipes_error"
         app:layout_constraintTop_toBottomOf="@+id/iv_recipes_error" />

@@ -64,6 +64,12 @@ class MainActivity : AppCompatActivity() {
 //                    supportFragmentManager.beginTransaction().replace(R.id.navHostFragment, FoodJokesFragment::class.java, null).commit()
                 }
             }
+
+//            supportFragmentManager.beginTransaction()
+//                .detach(supportFragmentManager.findFragmentById(R.id.navHostFragment)!!)
+//                .attach(supportFragmentManager.findFragmentById(R.id.navHostFragment)!!)
+//                .commit()
+
             true;
         }
     }
