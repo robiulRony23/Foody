@@ -1,6 +1,8 @@
 package com.example.foody.ui.fragments.recipes
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -73,6 +75,13 @@ class RecipesFragment : Fragment() {
         binding.fabRecipes.setOnClickListener {
             val recipesBottomSheet = RecipesBottomSheet()
             recipesBottomSheet.show(parentFragmentManager, recipesBottomSheet.tag)
+
+            binding.fabRecipes.isEnabled = false
+
+            Handler(Looper.getMainLooper())
+                .postDelayed({
+                    binding.fabRecipes.isEnabled = true
+                }, 500)
         }
 
         recipesViewModel.readMealAndDietType.asLiveData().observeOnceAfterInitial(viewLifecycleOwner) { value ->
