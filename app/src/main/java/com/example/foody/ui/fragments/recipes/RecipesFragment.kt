@@ -97,7 +97,7 @@ class RecipesFragment : Fragment() {
                     requestApiData()
                 } else {
                     Log.d(TAG, "readDatabase is called!!!")
-                    if (!recipesAdapter.recipes.equals(database[0].foodRecipe)) {
+                    if (recipesAdapter.recipes != database[0].foodRecipe.results) {
                         Log.d(TAG, "adapter data is reloaded!!!")
                         recipesAdapter.setData(database[0].foodRecipe)
                     }
