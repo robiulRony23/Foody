@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foody.viewmodel.MainViewModel
@@ -18,6 +19,7 @@ import com.example.foody.adaptars.RecipesAdapter
 import com.example.foody.data.network.NetworkResult
 import com.example.foody.databinding.FragmentRecipesBinding
 import com.example.foody.utils.observeOnce
+import com.example.foody.utils.observeOnceAfterInitial
 import com.example.foody.utils.observeTrueOnce
 import com.example.foody.viewmodel.ConnectivityViewModel
 import com.example.foody.viewmodel.RecipesViewModel
@@ -26,31 +28,27 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecipesFragment : Fragment() {
+    private val TAG = "RecipesFragment"
     private lateinit var mainViewModel: MainViewModel
     private lateinit var recipesViewModel: RecipesViewModel
     private lateinit var binding: FragmentRecipesBinding
     private val recipesAdapter by lazy { RecipesAdapter() }
     private val connectivityViewModel: ConnectivityViewModel by viewModels()
+    private var isFirstCall: Boolean = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("RecipesFragment", "onCreate() is called!!!")
+        Log.d(TAG, "onCreate() is called!!!")
         mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         recipesViewModel = ViewModelProvider(requireActivity())[RecipesViewModel::class.java]
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        Log.d("RecipesFragment", "onViewCreate() is called!!!")
-//        readDatabase()
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("RecipesFragment", "onCreateView() is called!!!")
+        Log.d(TAG, "onCreateView() is called!!!")
 
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipes, container, false)
@@ -59,14 +57,27 @@ class RecipesFragment : Fragment() {
 
         setUpRecyclerView()
         readDatabase()
+        isFirstCall = true
 
         connectivityViewModel.isOnline.observeTrueOnce(viewLifecycleOwner) { isOnline ->
-            Log.d("RecipesFragment", "internet connection is changed. isOnline: $isOnline")
-            if (isOnline) {
+            Log.d(TAG, "internet connection is changed. isOnline: $isOnline")
+            if (isOnline && !isFirstCall) {
                 if (recipesAdapter.itemCount == 0) {
+                    Log.d(TAG, "internet connection is changed. readDatabase is called...")
                     readDatabase()
                 }
             }
+            isFirstCall = false
+        }
+
+        binding.fabRecipes.setOnClickListener {
+            val recipesBottomSheet = RecipesBottomSheet()
+            recipesBottomSheet.show(parentFragmentManager, recipesBottomSheet.tag)
+        }
+
+        recipesViewModel.readMealAndDietType.asLiveData().observeOnceAfterInitial(viewLifecycleOwner) { value ->
+            Log.d(TAG, "bottom sheet data is changed!")
+            requestApiData()
         }
 
         return binding.root
@@ -76,10 +87,14 @@ class RecipesFragment : Fragment() {
         lifecycleScope.launch {
             mainViewModel.readRecipes.observeOnce(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
-                    Log.d("RecipesFragment", "readDatabase is called!!!")
-                    recipesAdapter.setData(database[0].foodRecipe)
+                    Log.d(TAG, "readDatabase is called!!!")
+                    if (!recipesAdapter.recipes.equals(database[0].foodRecipe)) {
+                        Log.d(TAG, "adapter data is reloaded!!!")
+                        recipesAdapter.setData(database[0].foodRecipe)
+                    }
                     hideShimmerEffect()
                 } else {
+                    Log.d(TAG, "readDatabase() -> request api data is called!!!")
                     requestApiData()
                 }
             }
@@ -90,7 +105,6 @@ class RecipesFragment : Fragment() {
         lifecycleScope.launch {
             mainViewModel.readRecipes.observe(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
-                    Log.d("RecipesFragment", "readDatabase is called!!!")
                     recipesAdapter.setData(database[0].foodRecipe)
                     hideShimmerEffect()
                 }
@@ -99,7 +113,7 @@ class RecipesFragment : Fragment() {
     }
 
     private fun requestApiData() {
-        Log.d("RecipesFragment", "requestApiData is called!!!")
+        Log.d(TAG, "requestApiData is called!!!")
         mainViewModel.getRecipes(recipesViewModel.getApplyQueries())
         mainViewModel.recipesResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -139,15 +153,4 @@ class RecipesFragment : Fragment() {
     private fun showShimmerEffect() {
         binding.srvRecipe.showShimmerAdapter()
     }
-
-//    override fun onPause() {
-//        super.onPause()
-//        Log.d("rony", "recipes fragment is onPause....")
-//        binding.srvRecipe.hideShimmerAdapter()
-//    }
-//    override fun onResume() {
-//        super.onResume()
-//        Log.d("rony", "recipes fragment is onResume....")
-//        showShimmerEffect()
-//    }
 }

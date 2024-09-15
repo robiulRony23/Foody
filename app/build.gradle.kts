@@ -79,9 +79,9 @@ dependencies {
 //    kapt "com.android.databinding:compiler:3.2.0-alpha10"
 //    kapt "androidx.databinding:databinding-common:4.0.2"
 //
-//    // DataStore
-//    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha01"
-//
+    // DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0-alpha01")
+
     // Recyclerview
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 //

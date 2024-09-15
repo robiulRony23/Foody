@@ -24,3 +24,16 @@ fun <Boolean> LiveData<Boolean>.observeTrueOnce(lifecycleOwner: LifecycleOwner, 
         }
     })
 }
+
+fun <T> LiveData<T>.observeOnceAfterInitial(owner: LifecycleOwner, observer: Observer<T>) {
+    var firstObservation = true
+    observe(owner, object : Observer<T> {
+        override fun onChanged(t: T) {
+            if (firstObservation) {
+                firstObservation = false
+            } else {
+                observer.onChanged(t)
+            }
+        }
+    })
+}
