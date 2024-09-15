@@ -36,7 +36,7 @@ class RecipesFragment : Fragment() {
     private lateinit var binding: FragmentRecipesBinding
     private val recipesAdapter by lazy { RecipesAdapter() }
     private val connectivityViewModel: ConnectivityViewModel by viewModels()
-    private var isFirstCall: Boolean = true
+    private var needApiCall: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,17 +59,13 @@ class RecipesFragment : Fragment() {
 
         setUpRecyclerView()
         readDatabase()
-        isFirstCall = true
 
-        connectivityViewModel.isOnline.observeTrueOnce(viewLifecycleOwner) { isOnline ->
+        connectivityViewModel.isOnline.observeOnceAfterInitial(viewLifecycleOwner) { isOnline ->
             Log.d(TAG, "internet connection is changed. isOnline: $isOnline")
-            if (isOnline && !isFirstCall) {
-                if (recipesAdapter.itemCount == 0) {
-                    Log.d(TAG, "internet connection is changed. readDatabase is called...")
-                    readDatabase()
-                }
+            if (isOnline) {
+                Log.d(TAG, "internet connection is changed. readDatabase is called...")
+                readDatabase()
             }
-            isFirstCall = false
         }
 
         binding.fabRecipes.setOnClickListener {
@@ -86,6 +82,7 @@ class RecipesFragment : Fragment() {
 
         recipesViewModel.readMealAndDietType.asLiveData().observeOnceAfterInitial(viewLifecycleOwner) { value ->
             Log.d(TAG, "bottom sheet data is changed!")
+            needApiCall = true
             requestApiData()
         }
 
@@ -95,16 +92,16 @@ class RecipesFragment : Fragment() {
     private fun readDatabase() {
         lifecycleScope.launch {
             mainViewModel.readRecipes.observeOnce(viewLifecycleOwner) { database ->
-                if (database.isNotEmpty()) {
+                if (needApiCall || database.isEmpty()) {
+                    Log.d(TAG, "readDatabase() -> request api data is called! needApiCall: $needApiCall")
+                    requestApiData()
+                } else {
                     Log.d(TAG, "readDatabase is called!!!")
                     if (!recipesAdapter.recipes.equals(database[0].foodRecipe)) {
                         Log.d(TAG, "adapter data is reloaded!!!")
                         recipesAdapter.setData(database[0].foodRecipe)
                     }
                     hideShimmerEffect()
-                } else {
-                    Log.d(TAG, "readDatabase() -> request api data is called!!!")
-                    requestApiData()
                 }
             }
         }
@@ -127,6 +124,7 @@ class RecipesFragment : Fragment() {
         mainViewModel.recipesResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is NetworkResult.Success -> {
+                    needApiCall = false
                     hideShimmerEffect()
                     response.data?.let { recipesAdapter.setData(it) }
                 }
